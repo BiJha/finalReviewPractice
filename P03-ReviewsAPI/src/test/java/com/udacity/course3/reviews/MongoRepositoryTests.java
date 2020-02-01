@@ -38,7 +38,7 @@ public class MongoRepositoryTests {
         if (reviewMongoRepository.existsById(review.getId())) {
             ReviewMongo result = reviewMongoRepository.findById(review.getId()).get();
             Assert.assertTrue(review.getComments().get(0).getComment_user_name().equals(result.getComments().get(0).getComment_user_name()));
-//            Assert.assertTrue(review.getReview().equals(result.getReview()));
+            Assert.assertTrue(review.getReview().equals(result.getReview()));
         } else {
             Assert.fail(" If given Id does not exist this will return");
         }
