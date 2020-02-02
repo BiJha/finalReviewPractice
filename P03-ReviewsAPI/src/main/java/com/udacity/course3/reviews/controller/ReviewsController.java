@@ -14,6 +14,7 @@ import org.springframework.web.client.HttpServerErrorException;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 
 /**
@@ -45,21 +46,28 @@ public class ReviewsController {
     public ResponseEntity<?> createReviewForProduct(@PathVariable("productId") Integer productId,
                                                     @RequestBody Review review) {
 
-        if (productRepository.existsById(productId)) {
-//            review.setProduct(productRepository.findById(productId).get());
-//            return new ResponseEntity<Review>(reviewRepository.save(review), HttpStatus.OK); // This will return
-//            the review of a product
-            reviewRepository.save(review);
-            ReviewMongo reviewMongo = new ReviewMongo(review.getId(), review.getRating(), review.getReview_content(),
-                    review.getReview_date(), review.getReview_user_name());
+//        if (productRepository.existsById(productId)) {
+////           review.setProduct(productRepository.findById(productId).get());
+////           return new ResponseEntity<Review>(reviewRepository.save(review), HttpStatus.OK); // This will return
+////            the review of a product
+//            reviewRepository.save(review);
+//            ReviewMongo reviewMongo = new ReviewMongo(review.getId(), review.getRating(), review.getReview_content(),
+//                    review.getReview_date(), review.getReview_user_name());
+
+        Optional<Product> optionalProduct = productRepository.findById(productId);
+        if (optionalProduct.isPresent()) {
+            Product product = optionalProduct.get();
+            review.setProduct(product);
+            Review savedReview = reviewRepository.save(review);
+            ReviewMongo reviewMongo = new ReviewMongo(savedReview.getId(), savedReview.getRating(), savedReview.getReview_content(), savedReview.getReview_date(), savedReview.getReview_user_name());
+
             return new ResponseEntity<ReviewMongo>(reviewMongoRepository.save(reviewMongo), HttpStatus.OK);
-
-
         } else {
             return new ResponseEntity<String>("This product Id does not exist", HttpStatus.NOT_FOUND);
 
         }
     }
+
 
 
     /**
