@@ -9,6 +9,10 @@ public class CommentMongo {
 
 
     public CommentMongo(int id, String comment_content, String comment_date, String comment_user_name) {
+        this.id = id;
+        this.comment_content = comment_content;
+        this.comment_date = comment_date;
+        this.comment_user_name = comment_user_name;
     }
 
     public int getId() {
