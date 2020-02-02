@@ -18,8 +18,12 @@ public class ReviewMongo {
 
     private List<CommentMongo> comments = new ArrayList<CommentMongo>();
 
-
     public ReviewMongo(int id, int rating, String review_content, String review_date, String review_user_name) {
+        this.id = id;
+        this.rating = rating;
+        this.review_content = review_content;
+        this.review_date = review_date;
+        this.review_user_name = review_user_name;
     }
 
     public int getId() {
